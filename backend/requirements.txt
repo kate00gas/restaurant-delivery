@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]>=2.0  # Используем SQLAlchemy 2.0+ для лучшей async поддержки
+asyncpg # Асинхронный драйвер для PostgreSQL
+pydantic[email]>=2.0 # Используем Pydantic V2+
+pydantic-settings # Для загрузки настроек из .env
+redis[hiredis]>=5.0 # Асинхронный клиент Redis
+aio-pika # Асинхронный клиент RabbitMQ
+python-dotenv
+bcrypt==4.0.1
+python-multipart>=0.0.12
+passlib[bcrypt]>=1.7.4 # Для хэширования паролей (если бы делали аутентификацию)
+python-jose[cryptography] # Для JWT (если бы делали аутентификацию)
+uuid # Встроенный, но убедимся, что есть
+# Опционально для миграций (здесь не используется активно)
+# alembic
+

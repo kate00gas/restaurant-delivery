@@ -1,0 +1,38 @@
+# Файлы окружения
+backend/.env
+.env
+
+# Тома Docker
+postgres_data_v2/
+redis_data_v2/
+rabbitmq_data_v2/
+
+# Python кэш и временные файлы
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Логи
+logs/
+*.log
+
+# Файлы IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ОС-специфичные файлы
+.DS_Store
+Thumbs.db
+
+# Временные файлы
+*.tmp
+*.bak
+*.swp
+
+# Секреты
+secrets.json
+*.key
+*.pem

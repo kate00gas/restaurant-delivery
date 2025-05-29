@@ -1,0 +1,53 @@
+project/
+├── frontend/
+│   ├── css/
+│   │   └── style.css         
+│   ├── js/
+│   │   └── app.js            # Логика фронтенда
+│   ├── index.html            # Главная страница SPA
+│   └── nginx.conf            # Конфигурация Nginx для фронтенда
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── endpoints/
+│   │   │   │   ├── admin.py    # Эндпоинты админ-панели (CRUD для заказов, ресторанов, меню, пользователей)
+│   │   │   │   ├── auth.py    # Эндпоинты аутентификации (регистрация, логин)
+│   │   │   │   ├── orders.py  # Эндпоинты для заказов (создание, просмотр)
+│   │   │   │   ├── restaurants.py # Эндпоинты для ресторанов (просмотр, удаление)
+│   │   │   │   └── __init__.py
+│   │   │   └── dependencies.py # Зависимости (аутентификация, JWT)
+│   │   ├── crud/
+│   │   │   ├── crud_order.py   # CRUD операции для заказов
+│   │   │   ├── crud_restaurant.py # CRUD операции для ресторанов и меню
+│   │   │   ├── crud_user.py    # CRUD операции для пользователей
+│   │   │   └── __init__.py
+│   │   ├── models/
+│   │   │   ├── order.py       # Модель заказов и элементов заказов
+│   │   │   ├── restaurant.py  # Модель ресторанов и пунктов меню
+│   │   │   ├── user.py        # Модель пользователей
+│   │   │   └── __init__.py
+│   │   ├── schemas/
+│   │   │   ├── order.py       # Pydantic схемы для заказов
+│   │   │   ├── restaurant.py  # Pydantic схемы для ресторанов и меню
+│   │   │   ├── user.py        # Pydantic схемы для пользователей
+│   │   │   └── __init__.py
+│   │   ├── services/
+│   │   │   ├── cache_service.py # Сервис для работы с Redis
+│   │   │   ├── message_service.py # Сервис для работы с RabbitMQ
+│   │   │   └── __init__.py
+│   │   ├── core/
+│   │   │   ├── config.py      # Настройки приложения
+│   │   │   └── __init__.py
+│   │   ├── db/
+│   │   │   ├── base_class.py  # Базовый класс SQLAlchemy
+│   │   │   ├── session.py     # Асинхронная сессия базы данных
+│   │   │   └── __init__.py
+│   │   └── main.py            # Главный файл FastAPI приложения
+│   ├── .env                   # Переменные окружения (DB, Redis, RabbitMQ, JWT)
+│   ├── Dockerfile             # Docker-образ для бэкенда
+│   └── requirements.txt       # Зависимости Python
+│
+├── database/
+│   └── init_db.sql            # SQL-скрипт для инициализации PostgreSQL
+└── docker-compose.yml         # Конфигурация Docker (фронтенд, бэкенд, DB, Redis, RabbitMQ)
+

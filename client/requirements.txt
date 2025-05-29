@@ -1,0 +1,6 @@
+
+
+requests
+rich # Для красивого вывода в консоль (опционально)
+python-dotenv # Чтобы читать BASE_URL из .env
+

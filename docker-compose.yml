@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  db_v2:
+    image: postgres:15
+    container_name: restaurant_db_v2
+    volumes:
+      - postgres_data_v2:/var/lib/postgresql/data
+      - ./database/init_db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: restaurant_db_v2
+      LANG: ru_RU.UTF-8
+      LC_ALL: ru_RU.UTF-8
+    ports:
+      - "5433:5432"
+    networks:
+      - app-network-v2
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d restaurant_db_v2"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis_v2:
+    image: redis:7
+    container_name: restaurant_redis_v2
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_v2:/data
+    networks:
+      - app-network-v2
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq_v2:
+    image: rabbitmq:3.12-management
+    container_name: restaurant_rabbitmq_v2
+    environment:
+      RABBITMQ_DEFAULT_USER: adminlr2
+      RABBITMQ_DEFAULT_PASS: b433dacff
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data_v2:/var/lib/rabbitmq
+    networks:
+      - app-network-v2
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  backend_v2:
+    build: ./backend
+    container_name: restaurant_backend_v2
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db_v2:
+        condition: service_healthy
+      redis_v2:
+        condition: service_healthy
+      rabbitmq_v2:
+        condition: service_healthy
+    networks:
+      - app-network-v2
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend_v2:
+    image: nginx:1.21
+    container_name: restaurant_frontend_v2
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend_v2
+    networks:
+      - app-network-v2
+
+volumes:
+  postgres_data_v2:
+    driver: local
+  redis_data_v2:
+    driver: local
+  rabbitmq_data_v2:
+    driver: local
+
+networks:
+  app-network-v2:
+    driver: bridge
