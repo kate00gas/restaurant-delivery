@@ -1,7 +1,7 @@
 # Файлы окружения
 backend/.env
 .env
-/client
+client/
 tx.txt
 
 # Тома Docker
