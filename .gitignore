@@ -1,8 +1,6 @@
 # Файлы окружения
 backend/.env
 .env
-backend/tx.txt
-client/
 
 # Тома Docker
 postgres_data_v2/
